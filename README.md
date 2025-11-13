@@ -9,34 +9,32 @@
 
 ## Laravel Opdrachten
 
-Deze repository is voor studenten die aan de slag willen met het leren van Laravel 12. De opdrachten zijn gekoppeld aan de lessenserie die
-geschreven is om stap voor stap het framework te leren. De lessenserie kan je vinden op de website van Stichting Praktijkleren.
-De eisen van de opdrachten staan dan ook in het document beschreven, met daarbij het commando wat je kan uitvoeren als controle.
+Deze repository is bedoeld voor studenten die aan de slag willen met Laravel 12. De opdrachten zijn gekoppeld aan een lessenserie die geschreven is om het framework stap voor stap te leren.  De eisen uit de opdrachten staan ook in het document beschreven, met daarbij het commando dat je kunt uitvoeren ter controle. Met een leermiddelenlicentie van Stichting Praktijkleren heb je toegang tot deze lessenserie.
 
-🎯 De Opdracht: Project Management Tool
-Voor de opdracht ga je aan de slag met een project management tool. Dit is om bij te houden hoever een project staat, welke taken er zijn en wie de taken moeten uitvoeren. De functionaliteit bestaat uit het volgende:
+De Opdracht: Projectmanagement Tool
+Voor de opdracht werk je met een projectmanagement tool. Dit doe je om bij te houden hoever een project staat, welke taken er zijn en wie de taken moeten uitvoeren. De functionaliteit bestaat uit het volgende:
 <ul>
-<li><strong>Projecten</strong>: Studenten kunnen projecten aanmaken en beheren</li>
-<li><strong>Taken</strong>: Bij een project kunnen allerlei taken horen</li>
-<li><strong>Activiteiten</strong>: Een taak heeft een status/activiteit, bijvoorbeeld: Todo, Doing, Testing, Verify, Done</li>
-<li><strong>Gebruikers</strong>: Taken kunnen worden toegewezen aan verschillende gebruikers</li>
+<li><strong>Projecten</strong>: Studenten kunnen projecten aanmaken en beheren.</li>
+<li><strong>Taken</strong>: Bij een project kunnen allerlei taken horen.</li>
+<li><strong>Activiteiten</strong>: Een taak heeft een status/activiteit, bijvoorbeeld: Todo, Doing, Testing, Verify, Done.</li>
+<li><strong>Gebruikers</strong>: Taken kunnen worden toegewezen aan verschillende gebruikers.</li>
 </ul>
 
 ## De installatie (bijv wampserver)
 Voer de volgende stappen uit om met deze opdrachten aan de slag te gaan.
 <ul>
-    <li>Clone het project in een directory</li>
-    <li>Maak in wampserver een virtualhost aan en zet de document root op de public map. Gebruik minimaal php versie 8.2</li>
-    <li>Zorg dat je bij de phpMyAdmin kan komen</li>
-    <li>Maak 1 databases aan: laravelopdr</li>
-    <li>Maak een .env file aan, en kopier de .env.example daar naartoe</li>
+    <li>Clone het project in een directory.</li>
+    <li>Maak in wampserver een virtualhost aan en zet de document root op de public map. Gebruik minimaal php versie 8.2.</li>
+    <li>Zorg dat je bij de phpMyAdmin kunt komen.</li>
+    <li>Maak 1 databases aan: laravelopdr.</li>
+    <li>Maak een .env file aan, en kopier de .env.example daar naartoe.</li>
     <li>In de .env file, check de database naam (laravelopdr) en de username (root)</li>
     <li>Ga naar je root directory van je project in de terminal, en voer daar uit: composer install</li>
     <li>Voer dan in de terminal uit: php artisan key:generate</li>
     <li>Voer dan in de terminal uit: php artisan migrate</li>
 </ul>
 
-Gebruik je een andere omgeving, dan zal je soortgelijke stappen moeten nemen om de opdrachten klaar te zetten.
+Gebruik je een andere omgeving, dan zul je soortgelijke stappen moeten nemen om de opdrachten klaar te zetten.
 
 <h1>🛠️ Kerntechnieken</h1>
 <h2>Fundamentele Concepten</h2>
@@ -106,7 +104,7 @@ Gebruik je een andere omgeving, dan zal je soortgelijke stappen moeten nemen om 
 <li><strong>Git Integration</strong>: Versiebeheer voor team development</li>
 </ul>
 
-<h2>📋 Complete Opdrachten Overzicht</h2>
+<h2> Complete Opdrachten Overzicht</h2>
 <ul>
 <li><strong>Opdracht 1</strong>: Model en Migration - Project tabel aanmaken</li>
 <li><strong>Opdracht 2</strong>: Factory & Seeder - Project testdata genereren</li>
