@@ -4,14 +4,18 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ProjectController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::view("admin", "layouts.layoutadmin")->name("admin");
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::resource('/admin/projects', ProjectController::class);
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
