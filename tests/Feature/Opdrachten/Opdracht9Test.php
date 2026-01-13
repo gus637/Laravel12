@@ -7,15 +7,15 @@ beforeEach(function (){
     $this->seed('ProjectSeeder');
 });
 
-test('delete project page is visable', function()
+test('delete project page is visible', function()
 {
     $this->withoutExceptionHandling();
     $escapedNameValue = htmlspecialchars($this->project->name, ENT_QUOTES);
     $escapedDescriptionValue = htmlspecialchars($this->project->description, ENT_QUOTES);
     $this->get(route('projects.delete',['project' => $this->project->id]))
         ->assertViewIs('admin.projects.delete')
-        ->assertSee($escapedNameValue)
-        ->assertSee($escapedDescriptionValue)
+        ->assertSee($escapedNameValue, false)
+        ->assertSee($escapedDescriptionValue, false)
         ->assertStatus(200);
 })->group('Opdracht9');
 

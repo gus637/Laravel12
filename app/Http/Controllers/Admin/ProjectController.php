@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection ReturnTypeCanBeDeclaredInspection */
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -28,14 +30,12 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $project = new Project();
-        $project->name = $request->input('name');
-        $project->description = $request->input('description');
-        $project->save();
+        $project = Project::create($request->validated());
 
-        return to_route('projects.index')->with("status", "Project $project->name successfully created");
+        return to_route('projects.index')
+            ->with("status", "Project $project->name is aangemaakt");
     }
 
     /**
@@ -43,7 +43,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('admin.projects.show', ['project' => $project]);
     }
 
     /**
@@ -51,22 +51,32 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', ['project' => $project]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectUpdateRequest $request, Project $project)
     {
-        //
+        $data = $request->validated();
+        $project->name = $data['name'];
+        $project->description = $data['description'];
+        $project->update();
+        return to_route('projects.index')
+            ->with("status", "Project $project->name is gewijzigd");
     }
-
+    public function delete(Project $project)
+    {
+        return view('admin.projects.delete', ['project' => $project]);
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return to_route('projects.index')
+            ->with("status", "Project $project->name is verwijderd");
     }
 }

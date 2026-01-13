@@ -26,14 +26,14 @@
         <div class="card-body grid grid-cols-1 gap-6 lg:grid-cols-1">
             <div class="p-4">
                 <form id="form" class="shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
-                      action="{{ route('projects.store') }}" method="POST">
+                      action="{{ route('projects.update', ['project' => $project->id]) }}" method="POST">
                     @csrf
-
+                    @method('PUT')
                     <label class="block text-sm">
                         <span class="text-gray-700">Name</span>
                         <input class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
                         focus:outline-none focus:shadow-outline-purple form-input"
-                               name="name" value="{{old("name")}}" type="text" required/>
+                               name="name" value="{{ old("name", $project->name) }}" type="text" required/>
                     </label>
 
                     @error('name')
@@ -45,7 +45,7 @@
                         <textarea
                             class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
                             focus:outline-none focus:shadow-outline" name="description"
-                            id="description">{{old("description")}}</textarea>
+                            id="description">{{ old("description", $project->description) }}</textarea>
                     </label>
                     @error('description')
                     <p class="text-red-500">{{ $message }}</p>
@@ -53,13 +53,10 @@
 
                     <button class="mt-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150
                     bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700
-                    focus:outline-none focus:shadow-outline-purple">Toevoegen</button>
+                    focus:outline-none focus:shadow-outline-purple">updaten</button>
                 </form>
             </div>
         </div>
         <!-- end body -->
     </div>
 @endsection
-
-
-

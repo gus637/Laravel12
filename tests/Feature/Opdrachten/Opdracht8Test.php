@@ -14,8 +14,8 @@ test('edit project page is visable', function()
     $escapedDescriptionValue = htmlspecialchars($this->project->description, ENT_QUOTES);
     $this->get(route('projects.edit',['project' => $this->project->id]))
         ->assertViewIs('admin.projects.edit')
-        ->assertSee($escapedNameValue)
-        ->assertSee($escapedDescriptionValue)
+        ->assertSee($escapedNameValue, false)
+        ->assertSee($escapedDescriptionValue, false)
         ->assertStatus(200);
 })->group('Opdracht8');
 

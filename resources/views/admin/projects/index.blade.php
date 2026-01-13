@@ -1,22 +1,6 @@
 @extends('layouts.layoutadmin')
 
-@section('topmenu')
-    <nav class="card">
-        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-            <div class="relative flex items-center justify-between h-16">
-                <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                    <div class="sm:block sm:ml-6">
-                        <div class="flex space-x-4">
-                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="{{ route('projects.index') }}" class="text-gray-800 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Overzicht Project</a>
-                            <a href="{{ route('projects.create') }}" class="text-gray-800 hover:text-teal-600 transition ease-in-out duration-500 px-3 py-2 rounded-md text-sm font-medium">Project Toevoegen</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-@endsection
+@include('admin.projects.topmenu')
 
 @section('content')
     <div class="card mt-6">
@@ -52,18 +36,18 @@
                     <tbody class="bg-white divide-y">
                     @foreach($projects as $project)
                         <tr class="text-gray-700">
-                            <td class="px-4 py-3 text-sm">{{$project->id}}</td>
-                            <td class="px-4 py-3 text-sm">{{$project->name}}</td>
-                            <td class="px-4 py-3 text-sm">{{Str::limit($project->description, 50)}}</td>
-                            <td class="px-4 py-3 text-sm"><a href="">Details</a></td>
+                            <td class="px-4 py-3 text-sm">{{ $project->id }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $project->name, 20}}</td>
+                            <td class="px-4 py-3 text-sm">{{ Str::limit($project->description, 30) }}</td>
+                            <td class="px-4 py-3 text-sm"><a href="{{ route("projects.show", $project) }}">Details</a></td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
-                                    <a href="">Wijzigen</a>
+                                    <a href="{{ route("projects.edit", $project) }}">Wijzigen</a>
                                 </div>
                             </td>
                             <td>
                                 <div class="flex items-center space-x-4 text-sm">
-                                    <a href="">Verwijderen</a>
+                                    <a href="{{ route("projects.delete", $project) }}">Verwijderen</a>
                                 </div>
                             </td>
                         </tr>

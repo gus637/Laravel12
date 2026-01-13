@@ -15,6 +15,9 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('/admin/projects/{project}/delete',
+    [ProjectController::class, 'delete'])
+    ->name('projects.delete');
 Route::resource('/admin/projects', ProjectController::class);
 
 Route::middleware(['auth'])->group(function () {
