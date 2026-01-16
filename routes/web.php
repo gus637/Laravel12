@@ -5,8 +5,9 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Open;
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('layouts.layoutpublic');
 })->name('home');
 
@@ -14,6 +15,8 @@ Route::view("admin", "layouts.layoutadmin")->name("admin");
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get("/projects", [Open\ProjectController::class, "index"])->name("open.projects.index");
 
 Route::get('/admin/projects/{project}/delete',
     [ProjectController::class, 'delete'])
