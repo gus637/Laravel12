@@ -11,17 +11,18 @@ Route::get('/', static function () {
     return view('layouts.layoutpublic');
 })->name('home');
 
-Route::view("admin", "layouts.layoutadmin")->name("admin");
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::get("/projects", [Open\ProjectController::class, "index"])->name("open.projects.index");
-
-Route::get('/admin/projects/{project}/delete',
-    [ProjectController::class, 'delete'])
-    ->name('projects.delete');
-Route::resource('/admin/projects', ProjectController::class);
+Route::group(["middleware" => ["role:teacher|admin|student"]], function () {
+    Route::view("admin", "layouts.layoutadmin")->name("admin");
+    Route::get('/admin/projects/{project}/delete',
+        [ProjectController::class, 'delete'])
+        ->name('projects.delete');
+    Route::resource('/admin/projects', ProjectController::class);
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
