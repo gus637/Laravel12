@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
-use Illuminate\Http\Request;
 
-class ProjectController extends Controller
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+
+class ProjectController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
@@ -30,7 +34,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProjectStoreRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(ProjectStoreRequest $request): RedirectResponse
     {
         $project = Project::create($request->validated());
 
@@ -78,5 +82,15 @@ class ProjectController extends Controller
         $project->delete();
         return to_route('projects.index')
             ->with("status", "Project $project->name is verwijderd");
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(PermissionMiddleware::using("show project"), only:["index"]),
+            new Middleware(PermissionMiddleware::using("create project"), only:['create', 'store']),
+            new Middleware(PermissionMiddleware::using("edit project"), only:['edit', 'update']),
+            new Middleware(PermissionMiddleware::using("delete project"), only:['delete', 'destroy'])
+        ];
     }
 }

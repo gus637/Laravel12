@@ -29,8 +29,12 @@
                         <th class="px-4 py-3">Naam</th>
                         <th class="px-4 py-3">Description</th>
                         <th class="px-4 py-3">Details</th>
+                        @can("edit project")
                         <th class="px-4 py-3">Edit</th>
+                        @endcan
+                        @can("delete project")
                         <th class="px-4 py-3">Delete</th>
+                        @endcan
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y">
@@ -40,16 +44,20 @@
                             <td class="px-4 py-3 text-sm">{{ $project->name, 20}}</td>
                             <td class="px-4 py-3 text-sm">{{ Str::limit($project->description, 30) }}</td>
                             <td class="px-4 py-3 text-sm"><a href="{{ route("projects.show", $project) }}">Details</a></td>
+                            @can("edit project")
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
                                     <a href="{{ route("projects.edit", $project) }}">Wijzigen</a>
                                 </div>
                             </td>
+                            @endcan
+                            @can("delete project")
                             <td>
                                 <div class="flex items-center space-x-4 text-sm">
                                     <a href="{{ route("projects.delete", $project) }}">Verwijderen</a>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
                     @endforeach
                     </tbody>

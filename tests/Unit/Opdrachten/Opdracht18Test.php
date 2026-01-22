@@ -54,7 +54,7 @@ test('TaskSeeder runs successfully', function () {
     }
 })->group('Opdracht18');
 
-// Test dat de project relatie correct is opgezet in de tasks table
+// Test dat de projectrelatie correct is opgezet in de tasks table
 test('Task model has correct project relationship', function () {
     $this->seed(ActivitySeeder::class);
     $project = Project::factory()->create();
