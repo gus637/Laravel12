@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TaskController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -16,14 +17,20 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::get("/projects", [Open\ProjectController::class, "index"])->name("open.projects.index");
-Route::group(["middleware" => ["role:teacher|admin|student"]], function () {
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::group(["middleware" => ["role:teacher|admin|student"]], static function () {
     Route::view("admin", "layouts.layoutadmin")->name("admin");
     Route::get('/admin/projects/{project}/delete',
         [ProjectController::class, 'delete'])
         ->name('projects.delete');
-    Route::resource('/admin/projects', ProjectController::class);
-});
 
+    Route::get('/admin/tasks/{task}/delete',
+        [TaskController::class, 'delete'])
+        ->name('admin.tasks.delete');
+
+    Route::resource('/admin/projects', ProjectController::class);
+    Route::resource("/admin/tasks", TaskController::class);
+});
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 

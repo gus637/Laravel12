@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
+ * @method static paginate(int $int): Task[]
  * @property int $id
  * @property string $task
- * @property \Illuminate\Support\Carbon $begindate
- * @property \Illuminate\Support\Carbon $enddate
+ * @property Carbon $begindate
+ * @property Carbon $enddate
  * @property int $user_id
  * @property int $project_id
  * @property int $activity_id

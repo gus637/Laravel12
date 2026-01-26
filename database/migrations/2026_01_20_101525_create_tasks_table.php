@@ -13,13 +13,15 @@ return new class extends Migration {
 		Schema::create('tasks', function (Blueprint $table) {
             // task database fields
 			$table->id();
-			$table->string('task');
+			$table->string('task', 40);
 			$table->date('begindate');
-			$table->date('enddate');
+			$table->date('enddate')->nullable();
 
             // foreign keys
 			$table->foreignIdFor(User::class)
-                ->constrained('users');
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
 			$table->foreignIdFor(Project::class)
                 ->constrained('projects')

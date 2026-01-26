@@ -32,8 +32,8 @@ test('tasks index page displays correct data', function () {
         $response->assertSee((string) $task->id);
         $response->assertSee(Str::limit($task->task, 50));
         $response->assertSee($task->begindate);
-        $response->assertSee($task->enddate ? $task->enddate : '');
-        $response->assertSee($task->user ? $task->user->name : 'N/A');
+        $response->assertSee($task->enddate ?? '');
+        $response->assertSee($task->user->name ?? 'N/A');
         $response->assertSee($task->project->name);
         $response->assertSee($task->activity->name);
     }
@@ -47,17 +47,18 @@ test('tasks index page displays N/A for tasks without user', function () {
         'project_id' => Project::first()->id,
         'activity_id' => Activity::first()->id,
     ]);
-
     // Haal het totale aantal pagina's op
     $totalTasks = Task::count();
     $tasksPerPage = 15;
     $lastPage = (int) ceil($totalTasks / $tasksPerPage);
 
     // Haal de laatste pagina op waar de nieuwe taak staat
+
     $response = $this->get(route('tasks.index', ['page' => $lastPage]));
 
     // Controleer dat 'N/A' voorkomt in de response
-    $response->assertSee('N/A');
+
+    $response->assertSee('N/A', false);
 
     // Controleer dat de taak zelf wel wordt getoond
     $response->assertSee((string) $task->id);
@@ -91,8 +92,11 @@ test('tasks index page displays empty string for tasks without enddate', functio
     $response->assertSee($task->activity->name);
 
     // Maak nu een vergelijkbare taak MET een enddate
+    // hij loopt vast hier
+
+//    assert(false, "fix deze test later");
     $taskWithEnddate = Task::factory()->create([
-        'enddate' => '2025-12-31',
+        'enddate' => \Carbon\Carbon::create(2025, 12, 31),
         'user_id' => User::first()->id,
         'project_id' => Project::first()->id,
         'activity_id' => Activity::first()->id,
