@@ -26,7 +26,7 @@ Route::group(["middleware" => ["role:teacher|admin|student"]], static function (
 
     Route::get('/admin/tasks/{task}/delete',
         [TaskController::class, 'delete'])
-        ->name('admin.tasks.delete');
+        ->name('tasks.delete');
 
     Route::resource('/admin/projects', ProjectController::class);
     Route::resource("/admin/tasks", TaskController::class);

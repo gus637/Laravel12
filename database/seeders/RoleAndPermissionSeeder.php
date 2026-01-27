@@ -47,6 +47,7 @@ class RoleAndPermissionSeeder extends Seeder
             'create task',
             'show task',
             'edit task',
+            'delete task',
         ]);
 
         $role = Role::create(['name' => 'teacher']);

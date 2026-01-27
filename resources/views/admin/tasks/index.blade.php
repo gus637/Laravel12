@@ -1,4 +1,4 @@
-@extends("layouts.layoutadmin")
+@extends("admin.tasks.layout")
 
 
 @section("content")
@@ -14,7 +14,7 @@
                     <th>Gebruiker</th>
                     <th>Project</th>
                     <th>activity</th>
-                    @can('view tasks')
+                    @can('show tasks')
                         <th>view</th>
                     @endcan
                     @can('edit tasks')
@@ -35,14 +35,14 @@
                         <td>{{ $task->user->name ?? "N/A" }}</td>
                         <td>{{ Str::limit($task->project->name, 50) }}</td>
                         <td>{{ $task->activity->name }}</td>
-                        @can('view task')
+                        @can('show task')
                         <td><a href="{{ route('tasks.show', $task->id) }}" class="btn btn-info">View</a></td>
                         @endcan
                         @can('edit task')
                         <td><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning">Edit</a></td>
                         @endcan
                         @can('delete task')
-                        <td><a href="{{ route('admin.tasks.delete', $task->id) }}" class="btn btn-danger">Delete</a></td>
+                        <td><a href="{{ route('tasks.delete', $task->id) }}" class="btn btn-danger">Delete</a></td>
                         @endcan
                     </tr>
                 @endforeach

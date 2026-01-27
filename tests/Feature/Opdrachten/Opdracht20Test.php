@@ -21,18 +21,29 @@ test('permissions are assigned correctly', function () {
     $permissions = ['index task', 'create task', 'show task', 'edit task', 'delete task'];
 
     foreach ($roles as $roleName) {
+        $feild = [];
         $role = Role::findByName($roleName);
         foreach ($permissions as $permission) {
-            $this->assertTrue($role->hasPermissionTo($permission));
+            if(!$role->hasPermissionTo($permission) ){
+                $feild[] = $permission;
+            }
+//            $this->assertTrue($role->hasPermissionTo($permission));
         }
+        $this->assertEmpty($feild, "Role $roleName does not have all required permissions. Missing: " . implode(", ", $feild));
     }
 })->group('Opdracht20');
 
 // Tests voor toegang door studenten
 test('students can access task routes', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
 
     $this->get(route('tasks.index'))->assertStatus(200);
@@ -47,9 +58,14 @@ test('students can access task routes', function () {
 
 // Tests voor toegang door leraren
 test('teachers can access task routes', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'teacher@school.nl')->first();
     $this->actingAs($user);
-
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
 
     $this->get(route('tasks.index'))->assertStatus(200);

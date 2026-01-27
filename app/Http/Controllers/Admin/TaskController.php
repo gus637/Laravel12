@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
@@ -42,7 +43,10 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function store(TaskStoreRequest $request)
     {
-        //
+//        $task = Task::create($request->validated());
+//
+//        return to_route("tasks.index")
+//            ->with("status", "Taak $task->task is aangemaakt");
     }
 
     /**
@@ -50,7 +54,7 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function show(Task $task)
     {
-        return view("admin.tasks.show", ["task" => $task]);
+//        return view("admin.tasks.show", ["task" => $task]);
     }
 
     /**
@@ -58,7 +62,7 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function edit(Task $task)
     {
-        return view("admin.tasks.edit", ["task" => $task]);
+//        return view("admin.tasks.edit", ["task" => $task]);
     }
 
     /**
@@ -72,24 +76,25 @@ class TaskController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): void
     {
         //
+
     }
 
     public function delete()
     {
-        return view("admin.tasks.delete");
+//        return view("admin.tasks.delete");
     }
 
     public static function middleware(): array
     {
         return [
-            new Middleware(PermissionMiddleware::using('index task'), only: ['index']),
-            new Middleware(PermissionMiddleware::using('create task'), only: ['create', 'store']),
-            new Middleware(PermissionMiddleware::using('show task'), only: ['show']),
-            new Middleware(PermissionMiddleware::using('edit task'), only: ['edit', 'update']),
-            new Middleware(PermissionMiddleware::using('delete task'), only: ['delete', 'destroy'])
+            new Middleware(PermissionMiddleware::using("index task"), only:['index']),
+            new Middleware(PermissionMiddleware::using("show task"), only:["show"]),
+            new Middleware(PermissionMiddleware::using("create task"), only:['create', 'store']),
+            new Middleware(PermissionMiddleware::using("edit task"), only:['edit', 'update']),
+            new Middleware(PermissionMiddleware::using("delete task"), only:['delete', 'destroy'])
         ];
     }
 }

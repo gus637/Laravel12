@@ -17,6 +17,14 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property int $project_id
  * @property int $activity_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property ?User $user
+ * @property Project $project
+ * @property Activity $activity
+ * @property TaskLabel[] $TaskLabel
+ * @property Carbon $beginDate
+ * @property ?Carbon $endDate
  */
 class Task extends Model
 {
