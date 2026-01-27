@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
+use App\Models\Activity;
+use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -28,9 +32,9 @@ class TaskController extends Controller implements HasMiddleware
     public function create()
     {
         return view("admin.tasks.create", [
-            "users" => \App\Models\User::all(),
-            "projects" => \App\Models\Project::all(),
-            "activities" => \App\Models\Activity::all()
+            "users" => User::all(),
+            "projects" => Project::all(),
+            "activities" => Activity::all()
         ]);
     }
 
@@ -39,10 +43,30 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function store(TaskStoreRequest $request): RedirectResponse
     {
-        $task = Task::create($request->validated());
+        /** Validate the request data
+         * @var array{
+         *     task: string,
+         *     begindate: string,
+         *     enddate: string|null,
+         *     user_id: int|null,
+         *     project_id: int,
+         *     activity_id: int
+         * } $data
+         */
+        $data = $request->validated();
+//        dd($data);
+//         Create a new Task instance and save it to the database
+        $task = new Task();
+        $task->task = $data['task'];
+        $task->begindate = $data['begindate'];
+        $task->enddate = $data['enddate'] ?? null;
+        $task->user_id = $data['user_id'] ?? null;
+        $task->project_id = $data['project_id'];
+        $task->activity_id = $data['activity_id'];
+        $task->save();
 
         return to_route("tasks.index")
-            ->with("status", "Taak $task->task is aangemaakt");
+            ->with("status", "Taak: $task->task is aangemaakt");
     }
 
     /**
@@ -62,9 +86,9 @@ class TaskController extends Controller implements HasMiddleware
     {
         return view("admin.tasks.edit", [
             "task" => $task,
-            "users" => \App\Models\User::all(),
-            "projects" => \App\Models\Project::all(),
-            "activities" => \App\Models\Activity::all()
+            "users" => User::all(),
+            "projects" => Project::all(),
+            "activities" => Activity::all()
         ]);
     }
 

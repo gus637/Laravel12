@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUndefinedFieldInspection */
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 use App\Models\User;
 use App\Models\Project;
@@ -56,6 +58,7 @@ test('task is stored correctly in the database when using correct data and showi
 
 // Test voor taakbeschrijving minimale lengte
 test('task description must be at least 10 characters', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -74,6 +77,7 @@ test('task description must be at least 10 characters', function () {
 
 // Test voor taakbeschrijving maximale lengte
 test('task description must not exceed 200 characters', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -93,6 +97,7 @@ test('task description must not exceed 200 characters', function () {
 
 // Test voor geldige begindatum
 test('begindate must be a valid date', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -111,6 +116,7 @@ test('begindate must be a valid date', function () {
 
 // Test voor optionele einddatum
 test('enddate must be a valid date or null', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -148,6 +154,7 @@ test('enddate must be a valid date or null', function () {
 
 // Test voor optionele user_id
 test('user_id can be null or a valid user id', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -171,6 +178,7 @@ test('user_id can be null or a valid user id', function () {
 
 // Test voor ongeldige user_id
 test('user_id must be a valid user id', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -189,6 +197,7 @@ test('user_id must be a valid user id', function () {
 
 // Test voor geldige project_id
 test('project_id must be a valid project id', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -207,6 +216,7 @@ test('project_id must be a valid project id', function () {
 
 // Test voor geldige activity_id
 test('activity_id must be a valid activity id', function () {
+    /** @var  $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -223,8 +233,10 @@ test('activity_id must be a valid activity id', function () {
     $response->assertStatus(422)->assertSee('The selected activity id is invalid.');
 })->group('Opdracht22');
 
-// Test of de TaskStoreRequest wordt gebruikt in de store methode
-test('store method uses TaskStoreRequest', function () {
+/** Test of de TaskStoreRequest wordt gebruikt in de store methode
+ * @throws ReflectionException
+ */
+test( 'store method uses TaskStoreRequest', function () {
     $controller = new \App\Http\Controllers\Admin\TaskController();
     $method = new ReflectionMethod($controller, 'store');
     /** @var  $parameters */

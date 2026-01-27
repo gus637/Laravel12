@@ -30,6 +30,15 @@ class Task extends Model
 {
 	use HasFactory;
 
+    protected $guarded = [
+        'task',
+        'begindate',
+        'enddate',
+        'user_id',
+        'project_id',
+        'activity_id',
+    ];
+
 	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
@@ -49,11 +58,11 @@ class Task extends Model
     {
         return $this->hasMany(TaskLabel::class);
     }
-	protected function casts(): array
-	{
-		return [
-			'begindate' => 'date',
-			'enddate' => 'date',
-		];
-	}
+//	protected function casts(): array
+//	{
+//		return [
+//			'begindate' => 'date',
+//			'enddate' => 'date',
+//		];
+//	}
 }

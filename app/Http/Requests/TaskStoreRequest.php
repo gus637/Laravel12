@@ -24,8 +24,8 @@ class TaskStoreRequest extends FormRequest
         return [
             'task' => 'required|string|min:10|max:200',
             'begindate' => 'required|date',
-            'enddate' => 'date|after_or_equal:begindate',
-            'user_id' => 'int|exists:users,id',
+            'enddate' => 'date|after_or_equal:begindate|nullable',
+            'user_id' => 'int|exists:users,id|nullable',
             'project_id' => 'required|int|exists:projects,id',
             'activity_id' => 'required|int|exists:activities,id',
         ];
