@@ -2,11 +2,8 @@
 
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Project;
-use App\Models\Activity;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 beforeEach(function () {
     $this->seed('RoleAndPermissionSeeder');
@@ -21,15 +18,15 @@ test('permissions are assigned correctly', function () {
     $permissions = ['index task', 'create task', 'show task', 'edit task', 'delete task'];
 
     foreach ($roles as $roleName) {
-        $feild = [];
+        $field = [];
         $role = Role::findByName($roleName);
         foreach ($permissions as $permission) {
             if(!$role->hasPermissionTo($permission) ){
-                $feild[] = $permission;
+                $field[] = $permission;
             }
 //            $this->assertTrue($role->hasPermissionTo($permission));
         }
-        $this->assertEmpty($feild, "Role $roleName does not have all required permissions. Missing: " . implode(", ", $feild));
+        $this->assertEmpty($field, "Role $roleName does not have all required permissions. Missing: " . implode(", ", $field));
     }
 })->group('Opdracht20');
 
@@ -80,9 +77,15 @@ test('teachers can access task routes', function () {
 
 // Tests voor toegang door admins
 test('admins can access task routes', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'admin@school.nl')->first();
     $this->actingAs($user);
 
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
 
     $this->get(route('tasks.index'))->assertStatus(200);
@@ -98,6 +101,9 @@ test('admins can access task routes', function () {
 // Tests voor niet-geauthenticeerde gebruikers
 test('unauthenticated users cannot access any task routes', function () {
     Auth::logout();
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
 
     $this->get(route('tasks.index'))->assertStatus(403);
