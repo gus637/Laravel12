@@ -15,6 +15,7 @@ beforeEach(function () {
 
 // Test of de gegevens correct in de database worden opgeslagen
 test('task is stored correctly in the database when using correct data and showing flash message', function () {
+    /** @var $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -226,6 +227,7 @@ test('activity_id must be a valid activity id', function () {
 test('store method uses TaskStoreRequest', function () {
     $controller = new \App\Http\Controllers\Admin\TaskController();
     $method = new ReflectionMethod($controller, 'store');
+    /** @var  $parameters */
     $parameters = $method->getParameters();
 
     $this->assertEquals(App\Http\Requests\TaskStoreRequest::class, $parameters[0]->getType()->getName());

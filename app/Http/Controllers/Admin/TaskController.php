@@ -2,14 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-//use App\Http\Controllers\Controller;
-//use App\Models\Task;
-//use App\Http\Requests\TaskStoreRequest;
-//use App\Http\Requests\TaskUpdateRequest;
-//use GuzzleHttp\Middleware;
-//use Illuminate\Routing\Controllers\HasMiddleware;
-//use Spatie\Permission\Middleware\PermissionMiddleware;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
@@ -35,18 +27,22 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view("admin.tasks.create");
+        return view("admin.tasks.create", [
+            "users" => \App\Models\User::all(),
+            "projects" => \App\Models\Project::all(),
+            "activities" => \App\Models\Activity::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TaskStoreRequest $request)
+    public function store(TaskStoreRequest $request): RedirectResponse
     {
-//        $task = Task::create($request->validated());
-//
-//        return to_route("tasks.index")
-//            ->with("status", "Taak $task->task is aangemaakt");
+        $task = Task::create($request->validated());
+
+        return to_route("tasks.index")
+            ->with("status", "Taak $task->task is aangemaakt");
     }
 
     /**
@@ -54,7 +50,9 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function show(Task $task)
     {
-//        return view("admin.tasks.show", ["task" => $task]);
+        return view("admin.tasks.show", [
+            "task" => $task,
+        ]);
     }
 
     /**
@@ -62,7 +60,12 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function edit(Task $task)
     {
-//        return view("admin.tasks.edit", ["task" => $task]);
+        return view("admin.tasks.edit", [
+            "task" => $task,
+            "users" => \App\Models\User::all(),
+            "projects" => \App\Models\Project::all(),
+            "activities" => \App\Models\Activity::all()
+        ]);
     }
 
     /**
@@ -70,7 +73,9 @@ class TaskController extends Controller implements HasMiddleware
      */
     public function update(TaskUpdateRequest $request, Task $task)
     {
-        //
+        $task->update($request->validated());
+        return to_route("tasks.index")
+            ->with("status", "Taak $task->task is aangepast");
     }
 
     /**

@@ -22,12 +22,12 @@ class TaskStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'task' => 'required|string|max:40',
-//            'begindate' => 'required|date',
-//            'enddate' => 'required|date|after_or_equal:begindate',
-//            'user_id' => 'required|exists:users,id',
-//            'project_id' => 'required|exists:projects,id',
-//            'activity_id' => 'required|exists:activities,id',
+            'task' => 'required|string|min:10|max:200',
+            'begindate' => 'required|date',
+            'enddate' => 'date|after_or_equal:begindate',
+            'user_id' => 'int|exists:users,id',
+            'project_id' => 'required|int|exists:projects,id',
+            'activity_id' => 'required|int|exists:activities,id',
         ];
     }
 }

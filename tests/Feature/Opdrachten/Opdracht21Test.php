@@ -3,7 +3,6 @@
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Activity;
-use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed('RoleAndPermissionSeeder');
@@ -14,6 +13,7 @@ beforeEach(function () {
 
 // Test of de create pagina toegankelijk is voor gebruikers met de juiste permissies
 test('task create page is accessible for users with create task permission', function () {
+    /**@var User $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user)
         ->get(route('tasks.create'))
@@ -23,6 +23,7 @@ test('task create page is accessible for users with create task permission', fun
 
 // Test of de create pagina de correcte inputvelden bevat
 test('task create page contains the correct input fields', function () {
+    /**@var User $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user)
         ->get(route('tasks.create'))
@@ -34,11 +35,12 @@ test('task create page contains the correct input fields', function () {
         ->assertSee('name="user_id"', false)
         ->assertSee('name="project_id"', false)
         ->assertSee('name="activity_id"', false)
-        ->assertSee('action="' . route('tasks.store') . '"', false);;
+        ->assertSee('action="' . route('tasks.store') . '"', false);
 })->group('Opdracht21');
 
 // Test if the tasks create page displays the correct dropdown options for users
 test('tasks create page displays correct user dropdown options', function () {
+    /**@var User $user */
     $user = User::where('email', 'admin@school.nl')->first();
     $this->actingAs($user);
     $users = User::all();
@@ -52,6 +54,7 @@ test('tasks create page displays correct user dropdown options', function () {
 
 // Test if the tasks create page displays the correct dropdown options for projects
 test('tasks create page displays correct project dropdown options', function () {
+    /**@var User $user */
     $user = User::where('email', 'admin@school.nl')->first();
     $this->actingAs($user);
     $projects = Project::all();
@@ -59,12 +62,13 @@ test('tasks create page displays correct project dropdown options', function () 
 
     foreach ($projects as $project) {
         $response->assertSee('value="'.$project->id.'"', false);
-        $response->assertSee($project->name, false);
+        $response->assertSee($project->name);
     }
 })->group('Opdracht21');
 
 // Test if the tasks create page displays the correct dropdown options for activities
 test('tasks create page displays correct activity dropdown options', function () {
+    /**@var User $user */
     $user = User::where('email', 'admin@school.nl')->first();
     $this->actingAs($user);
     $activities = Activity::all();
