@@ -15,6 +15,9 @@ beforeEach(function () {
 
 // Test of de show pagina toegankelijk is voor gebruikers met de juiste permissies
 test('task show page is accessible for users with show task permission', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
@@ -26,9 +29,13 @@ test('task show page is accessible for users with show task permission', functio
 
 // Test of de show pagina de correcte gegevens weergeeft
 test('task show page displays correct data', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
 
+    /** @var Task $task */
     $task = Task::with(['user', 'project', 'activity'])->first();
     $response = $this->get(route('tasks.show', $task));
 

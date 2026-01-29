@@ -11,8 +11,10 @@
 |
 */
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\DatabaseMigrations::class)
+    ->use(RefreshDatabase::class)
     ->in('Feature', 'Unit');
 
 /*
@@ -45,3 +47,8 @@ function something()
 {
     // ..
 }
+
+//function loopAssert(array $items, callable $callback): array
+//{
+//    // ..
+//}

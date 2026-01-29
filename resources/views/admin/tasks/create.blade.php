@@ -7,78 +7,113 @@
 {{--'project_id' => 'required|int|exists:projects,id',--}}
 {{--'activity_id' => 'required|int|exists:activities,id',--}}
 @section("content")
-    <form method="POST" action="{{ route('tasks.store') }}" class="mt-4">
-        @csrf
-        <div class="mb-3">
-            <label for="task" class="form-label">Task</label>
-            <input type="text" class="form-control" id="task" name="task" value="{{ old('task') }}" required maxlength="200" minlength="10">
-            @error('task')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
+    <div class="card mt-6">
+        <!-- header -->
+        <div class="card-header flex flex-row justify-between">
+            <h1 class="h6">Task Admin</h1>
         </div>
+        <!-- end header -->
 
-        <div class="mb-3">
-            <label for="begindate" class="form-label">Begin Date</label>
-            <input type="date" class="form-control" id="begindate" name="begindate" value="{{ old('begindate') }}" required>
-            @error('begindate')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
+        <!-- errors -->
+        @if($errors->any())
+            <div class="bg-red-200 text-red-900 rounded-lg shadow-md p-6 pr-10 mb-8"
+                 style="min-width: 240px">
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- body -->
+        <div class="card-body grid grid-cols-1 gap-6 lg:grid-cols-1">
+            <div class="p-4">
+                <form id="form" class="shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
+                      action="{{ route('tasks.store')}}" method="POST">
+                    @csrf
+                    <label class="block text-sm">
+                        <span class="text-gray-700">Task</span>
+                        <input class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                               name="task" value="{{ old("task") }}" type="text" required min="10" max="200"/>
+                    </label>
+                    @error('task')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <label class="block text-sm">
+                        <span class="text-gray-700">Begin Date</span>
+                        <input class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                               name="begindate" value="{{ old("begindate") }}" type="date" required/>
+                    </label>
+                    @error('begindate')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <label class="block text-sm">
+                        <span class="text-gray-700">End Date</span>
+                        <input class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                               name="enddate" value="{{ old("enddate") }}" type="date"/>
+                    </label>
+                    @error('enddate')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <label class="block text-sm">
+                        <span class="text-gray-700">User</span>
+                        <select class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                                name="user_id">
+                            <option value="" disabled selected>Select a user</option>
+                            <option value="">-- No User --</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </label>
+                    @error('user_id')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <label class="block text-sm">
+                        <span class="text-gray-700">Project</span>
+                        <select class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                                name="project_id" required>
+                            <option value="" disabled selected>Select a project</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>
+                                    {{ $project->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </label>
+                    @error('project_id')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <label class="block text-sm">
+                        <span class="text-gray-700">Activity</span>
+                        <select class="bg-gray-200  block rounded w-full p-2 mt-1 focus:border-purple-400
+                        focus:outline-none focus:shadow-outline-purple form-input"
+                                name="activity_id" required>
+                            <option value="" disabled selected>Select an activity</option>
+                            @foreach($activities as $activity)
+                                <option value="{{ $activity->id }}" {{ old('activity_id') == $activity->id ? 'selected' : '' }}>
+                                    {{ $activity->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </label>
+                    @error('activity_id')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
+                    <button class="mt-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150
+                    bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700
+                    focus:outline-none focus:shadow-outline-purple">create</button>
+                </form>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="enddate" class="form-label">End Date</label>
-            <input type="date" class="form-control" id="enddate" name="enddate" value="{{ old('enddate') }}">
-            @error('enddate')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
-            <label for="user_id" class="form-label">User</label>
-            <select class="form-select" id="user_id" name="user_id">
-                <option value="" disabled selected>Select a user</option>
-                <option value="">-- No User --</option>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ old('user_id') === $user->id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('user_id')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
-            <label for="project_id" class="form-label">Project</label>
-            <select class="form-select" id="project_id" name="project_id" required>
-                <option value="" disabled selected>Select a project</option>
-                @foreach($projects as $project)
-                    <option value="{{ $project->id }}" {{ old('project_id') === $project->id ? 'selected' : '' }}>
-                        {{ $project->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('project_id')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
-            <label for="activity_id" class="form-label">Activity</label>
-            <select class="form-select" id="activity_id" name="activity_id" required>
-                <option value="" disabled selected>Select an activity</option>
-                @foreach($activities as $activity)
-                    <option value="{{ $activity->id }}" {{ old('activity_id') === $activity->id ? 'selected' : '' }}>
-                        {{ $activity->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('activity_id')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <button type="submit" class="btn btn-primary">Create Task</button>
-    </form>
+        <!-- end body -->
+    </div>
 @endsection
