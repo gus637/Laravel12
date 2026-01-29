@@ -68,7 +68,7 @@
                             <option value="" disabled selected>Select a user</option>
                             <option value="">-- No User --</option>
                             @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id', $tesk->user_id) === $user->id ? 'selected' : '' }}>
+                                <option value="{{ $user->id }}" {{ old('user_id', $task->user_id) === $user->id ? 'selected' : '' }}>
                                     {{ $user->name }}
                                 </option>
                             @endforeach

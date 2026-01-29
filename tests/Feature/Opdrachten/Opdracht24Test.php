@@ -16,8 +16,14 @@ beforeEach(function () {
 
 // Test of de edit pagina toegankelijk is voor gebruikers met de juiste permissies
 test('task edit page is accessible for users with edit task permission', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
     $response = $this->get(route('tasks.edit', $task->id));
 
@@ -27,8 +33,10 @@ test('task edit page is accessible for users with edit task permission', functio
 
 // Test of de edit pagina de correcte inputvelden bevat
 test('task edit page contains the correct input fields', function () {
+    /**@var User $user */
     $user = User::where('email', 'student@school.nl')->first();
     $this->actingAs($user);
+    /**@var Task $task */
     $task = Task::first();
     $response = $this->get(route('tasks.edit', $task->id));
 
@@ -49,8 +57,14 @@ test('task edit page contains the correct input fields', function () {
 
 // Test of de edit pagina de correcte dropdown opties voor users bevat en de huidige waarde geselecteerd is
 test('tasks edit page displays correct user dropdown options and selected value', function () {
+    /**
+     * @var User $user
+     */
     $user = User::where('email', 'admin@school.nl')->first();
     $this->actingAs($user);
+    /**
+     * @var Task $task
+     */
     $task = Task::first();
     $response = $this->get(route('tasks.edit', $task->id));
     $users = User::all();
@@ -58,7 +72,7 @@ test('tasks edit page displays correct user dropdown options and selected value'
     foreach ($users as $dropdownUser) {
         $response->assertSee('value="'.$dropdownUser->id.'"', false);
         $response->assertSee($dropdownUser->name, false);
-        if ($task->user_id == $dropdownUser->id) {
+        if ($task->user_id === $dropdownUser->id) {
             $response->assertSeeInOrder(['value="'.$dropdownUser->id.'"', 'selected'], false);
         }
     }
@@ -74,7 +88,7 @@ test('tasks edit page displays correct project dropdown options and selected val
 
     foreach ($projects as $dropdownProject) {
         $response->assertSee('value="'.$dropdownProject->id.'"', false);
-        $response->assertSee($dropdownProject->name, false);
+        $response->assertSee($dropdownProject->name);
         if ($task->project_id == $dropdownProject->id) {
             $response->assertSeeInOrder(['value="'.$dropdownProject->id.'"', 'selected'], false);
         }
